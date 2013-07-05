@@ -25,7 +25,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 
 public class IndexableListView extends ListView {
-	
+
 	private boolean mIsFastScrollEnabled = false;
 	private IndexScroller mScroller = null;
 	private GestureDetector mGestureDetector = null;
@@ -64,7 +64,7 @@ public class IndexableListView extends ListView {
 	@Override
 	public void draw(Canvas canvas) {
 		super.draw(canvas);
-		
+
 		// Overlay index bar
 		if (mScroller != null)
 			mScroller.draw(canvas);
@@ -75,28 +75,24 @@ public class IndexableListView extends ListView {
 		// Intercept ListView's touch event
 		if (mScroller != null && mScroller.onTouchEvent(ev))
 			return true;
-		
-		if (mGestureDetector == null) {
-			mGestureDetector = new GestureDetector(getContext(), new GestureDetector.SimpleOnGestureListener() {
 
-				@Override
-				public boolean onFling(MotionEvent e1, MotionEvent e2,
-						float velocityX, float velocityY) {
-					// If fling happens, index bar shows
-					mScroller.show();
-					return super.onFling(e1, e2, velocityX, velocityY);
-				}
-				
-			});
+		if (mGestureDetector == null) {
+			mGestureDetector = new GestureDetector(getContext(),
+					new GestureDetector.SimpleOnGestureListener() {
+
+						@Override
+						public boolean onFling(MotionEvent e1, MotionEvent e2,
+								float velocityX, float velocityY) {
+							// If fling happens, index bar shows
+							mScroller.show();
+							return super.onFling(e1, e2, velocityX, velocityY);
+						}
+
+					});
 		}
 		mGestureDetector.onTouchEvent(ev);
-		
-		return super.onTouchEvent(ev);
-	}
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		return true;
+		return super.onTouchEvent(ev);
 	}
 
 	@Override
